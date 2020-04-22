@@ -16,9 +16,12 @@ def respond():
     chat_id = update.message.chat_id
     message_id = update.message.message_id
 
-    msg = update.message.text.encode('utf-8').decode()
+    poll = telegram.Poll(id='1',question='ur name?',options=['test','hey','sai','bye'],type='QUIZ',correct_option_id=3)
 
-    bot.sendMessage(chat_id = chat_id, text = msg,reply_to_message_id=message_id)
+    bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3)
+    # msg = update.message.text.encode('utf-8').decode()
+
+    # bot.sendMessage(chat_id = chat_id, text = msg,reply_to_message_id=message_id)
 
     return 'ok'
 
