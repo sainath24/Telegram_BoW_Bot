@@ -12,8 +12,10 @@ app = Flask(__name__)
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
 def respond():
     update = telegram.Update.de_json(request.get_json(force = True), bot)
+    chat_id = update.message.chat_id
     if update.callback_query:
         bot.answerCallbackQuery(update.callback_query.id,text='Answered')
+        bot.sendMessage(chat_id=chat_id,text='YAYY')
 
     chat_id = update.message.chat_id
     message_id = update.message.message_id
