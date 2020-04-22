@@ -19,6 +19,7 @@ def respond():
     # if update.callback_query:
     #     bot.answerCallbackQuery(update.callback_query.id,text='Answered')
     #     bot.sendMessage(chat_id=chat_id,text='YAYY')
+    poll = update.message.poll
     if poll:
         print('inside poll\n')
         bot.sendMessage(chat_id=id,text='inside poll')
@@ -28,7 +29,7 @@ def respond():
     id = chat_id
     message_id = update.message.message_id
     
-    poll = update.message.poll
+    
     
 
     opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
