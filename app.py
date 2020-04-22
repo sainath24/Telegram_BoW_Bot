@@ -24,6 +24,9 @@ def respond():
     bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3)
     # msg = update.message.text.encode('utf-8').decode()
 
+    bot.sendPoll(chat_id=chat_id,question='ur clg?',options=['test','hey','ssn','annuniv'],type=telegram.Poll.QUIZ,correct_option_id=2)
+    
+
     # bot.sendMessage(chat_id = chat_id, text = msg,reply_to_message_id=message_id)
 
     return 'ok'
