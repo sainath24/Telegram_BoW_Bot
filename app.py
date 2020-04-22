@@ -12,28 +12,18 @@ app = Flask(__name__)
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
 def respond():
     update = telegram.Update.de_json(request.get_json(force = True), bot)
-    chat_id = update.message.chat_id
-    if update.callback_query:
-        bot.answerCallbackQuery(update.callback_query.id,text='Answered')
-        bot.sendMessage(chat_id=chat_id,text='YAYY')
+    # if update.callback_query:
+    #     bot.answerCallbackQuery(update.callback_query.id,text='Answered')
+    #     bot.sendMessage(chat_id=chat_id,text='YAYY')
 
     chat_id = update.message.chat_id
     message_id = update.message.message_id
-    # callback = update.callback_query
+    
+    poll = update.message.poll
+    if poll:
+        print('inside poll\n')
+        bot.sendMessage(chat_id=chat_id,text='inside poll')
 
-    # if callback:
-    #     bot.sendMessage(chat_id=chat_id,text='Answered')
-    #     return 'ok'
-
-    # p = update.m
-    # if p:
-    #     bot.sendMessage(chat_id=chat_id,text= 'poll answered')
-    #     return 'ok'
-
-    # b1 = telegram.InlineKeyboardButton(text='test')
-    # b2 = telegram.InlineKeyboardButton(text='hey')
-    # b3 = telegram.InlineKeyboardButton(text='sai')
-    # b4 = telegram.InlineKeyboardButton(text='bye')
     opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
     opt = telegram.InlineKeyboardMarkup(inline_keyboard=opt)
     # poll = telegram.Poll(id='1',question='ur name?',options=['test','hey','sai','bye'],type='QUIZ',correct_option_id=3)
