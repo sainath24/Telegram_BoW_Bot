@@ -15,9 +15,9 @@ def respond():
 
     chat_id = update.message.chat_id
     message_id = update.message.message_id
-    p = telegram.Poll.to_json(bot)
+    p = update.poll
     if p:
-        bot.sendMessage(chat_id= chat_id,text = '' + p)
+        bot.sendMessage(chat_id=chat_id,text= ' '+p)
         return 'ok'
 
     # poll = telegram.Poll(id='1',question='ur name?',options=['test','hey','sai','bye'],type='QUIZ',correct_option_id=3)
