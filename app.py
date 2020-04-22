@@ -24,7 +24,8 @@ def respond():
     b2 = telegram.InlineKeyboardButton(text='hey')
     b3 = telegram.InlineKeyboardButton(text='sai')
     b4 = telegram.InlineKeyboardButton(text='bye')
-    opt = telegram.InlineKeyboardMarkup([[b1,b2],[b3,b4]])
+    opt = [[telegram.InlineKeyboardButton(text='test') for _ in range(2)] for _ in range(2)]
+    opt = telegram.InlineKeyboardMarkup(opt)
     # poll = telegram.Poll(id='1',question='ur name?',options=['test','hey','sai','bye'],type='QUIZ',correct_option_id=3)
     bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3,reply_markup=opt)
     # msg = update.message.text.encode('utf-8').decode()
