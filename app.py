@@ -22,7 +22,10 @@ def respond():
     poll = update.poll
     if poll:
         print('inside poll\n')
-        bot.sendMessage(chat_id=id,text='inside poll ' + update.poll_answer)
+        if update.poll_answer:
+            bot.sendMessage(chat_id=id,text='inside poll ' + update.poll_answer)
+        else:
+            bot.sendMessage(chat_id=id,text='inside poll ' + poll)
         return 'ok'
 
     chat_id = update.message.chat_id
