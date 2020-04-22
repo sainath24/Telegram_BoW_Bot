@@ -13,13 +13,13 @@ id = None
 
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
 def respond():
+    global id
     update = telegram.Update.de_json(request.get_json(force = True), bot)
 
-    global id
     # if update.callback_query:
     #     bot.answerCallbackQuery(update.callback_query.id,text='Answered')
     #     bot.sendMessage(chat_id=chat_id,text='YAYY')
-    poll = update.message.poll
+    poll = update.poll
     if poll:
         print('inside poll\n')
         bot.sendMessage(chat_id=id,text='inside poll')
