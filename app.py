@@ -15,9 +15,12 @@ def respond():
 
     chat_id = update.message.chat_id
     message_id = update.message.message_id
+    p = telegram.Poll.to_json(bot)
+    if p:
+        bot.sendMessage(chat_id= chat_id,text = '' + p)
+        return 'ok'
 
     # poll = telegram.Poll(id='1',question='ur name?',options=['test','hey','sai','bye'],type='QUIZ',correct_option_id=3)
-
     bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3)
     # msg = update.message.text.encode('utf-8').decode()
 
