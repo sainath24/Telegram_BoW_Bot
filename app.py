@@ -16,7 +16,7 @@ def respond():
     chat_id = update.message.chat_id
     message_id = update.message.message_id
 
-    msg = update.message.message
+    msg = update.message.text.encode('utf-8').decode()
 
     bot.sendMessage(chat_id = chat_id, text = msg,reply_to_message_id=message_id)
 
