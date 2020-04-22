@@ -20,17 +20,17 @@ def respond():
     #     bot.sendMessage(chat_id=chat_id,text= 'poll answered')
     #     return 'ok'
 
-    b1 = telegram.InlineKeyboardButton(text='test')
-    b2 = telegram.InlineKeyboardButton(text='hey')
-    b3 = telegram.InlineKeyboardButton(text='sai')
-    b4 = telegram.InlineKeyboardButton(text='bye')
+    # b1 = telegram.InlineKeyboardButton(text='test')
+    # b2 = telegram.InlineKeyboardButton(text='hey')
+    # b3 = telegram.InlineKeyboardButton(text='sai')
+    # b4 = telegram.InlineKeyboardButton(text='bye')
     opt = [[telegram.InlineKeyboardButton(text='test') for _ in range(2)] for _ in range(2)]
     opt = telegram.InlineKeyboardMarkup(opt)
     # poll = telegram.Poll(id='1',question='ur name?',options=['test','hey','sai','bye'],type='QUIZ',correct_option_id=3)
     bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3,reply_markup=opt)
     # msg = update.message.text.encode('utf-8').decode()
 
-    bot.sendPoll(chat_id=chat_id,question='ur clg?',options=['test','hey','ssn','annuniv'],type=telegram.Poll.QUIZ,correct_option_id=2)
+    # bot.sendPoll(chat_id=chat_id,question='ur clg?',options=['test','hey','ssn','annuniv'],type=telegram.Poll.QUIZ,correct_option_id=2)
     
 
     # bot.sendMessage(chat_id = chat_id, text = msg,reply_to_message_id=message_id)
