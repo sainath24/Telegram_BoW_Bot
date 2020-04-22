@@ -23,10 +23,10 @@ def respond():
     if poll:
         vote = poll.options
         print('inside poll\n')
-        # if vote[poll.correct_option_id].voter_count == 1:
-        #     bot.sendMessage(chat_id=id,text='Right Answer')
-        # else:
-        bot.sendMessage(chat_id=id,text='Wrong Answer, ' + str(vote[poll.correct_option_id].voter_count))
+        if vote[poll.correct_option_id].voter_count == 1:
+            bot.sendMessage(chat_id=id,text='Right Answer')
+        else:
+            bot.sendMessage(chat_id=id,text='Wrong Answer, Right answer is: ' + vote[poll.correct_option_id].text )
         return 'ok'
 
     chat_id = update.message.chat_id
