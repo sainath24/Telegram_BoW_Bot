@@ -9,20 +9,27 @@ bot = telegram.Bot(token = TOKEN)
 
 app = Flask(__name__)
 
+id = None
+
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
 def respond():
     update = telegram.Update.de_json(request.get_json(force = True), bot)
+
+    global id
     # if update.callback_query:
     #     bot.answerCallbackQuery(update.callback_query.id,text='Answered')
     #     bot.sendMessage(chat_id=chat_id,text='YAYY')
+    if poll:
+        print('inside poll\n')
+        bot.sendMessage(chat_id=id,text='inside poll')
+        return 'ok'
 
     chat_id = update.message.chat_id
+    id = chat_id
     message_id = update.message.message_id
     
     poll = update.message.poll
-    if poll:
-        print('inside poll\n')
-        bot.sendMessage(chat_id=chat_id,text='inside poll')
+    
 
     opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
     opt = telegram.InlineKeyboardMarkup(inline_keyboard=opt)
