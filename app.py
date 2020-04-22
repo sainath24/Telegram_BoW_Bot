@@ -15,6 +15,12 @@ def respond():
 
     chat_id = update.message.chat_id
     message_id = update.message.message_id
+    callback = update.callback_query
+
+    if callback:
+        bot.sendMessage(chat_id=chat_id,text='Answered')
+        return 'ok'
+
     # p = update.m
     # if p:
     #     bot.sendMessage(chat_id=chat_id,text= 'poll answered')
