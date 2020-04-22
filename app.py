@@ -22,7 +22,7 @@ def respond():
 
     return 'ok'
 
-@app.route('/wh',methods = ['GET'])
+@app.route('/wh',methods = ['GET','POST'])
 def set_wh():
     s = bot.setWebhook('{URL}{HOOK}', URL = URL,HOOK =TOKEN)
     if s:
