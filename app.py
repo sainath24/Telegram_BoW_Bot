@@ -21,11 +21,12 @@ def respond():
     #     bot.sendMessage(chat_id=chat_id,text='YAYY')
     poll = update.poll
     if poll:
+        vote = poll.total_voter_count
         print('inside poll\n')
-        if update.poll_answer:
-            bot.sendMessage(chat_id=id,text='inside poll answer ' + update.poll_answer)
+        if vote[poll.correct_option_id].voter_count == 1:
+            bot.sendMessage(chat_id=id,text='Right Answer')
         else:
-            bot.sendMessage(chat_id=id,text='inside poll ' + str(poll))
+            bot.sendMessage(chat_id=id,text='Wrong Answer, ' + str(poll))
         return 'ok'
 
     chat_id = update.message.chat_id
