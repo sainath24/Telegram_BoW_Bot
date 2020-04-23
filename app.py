@@ -52,16 +52,12 @@ def registerLevel(tid,update, collection,reg_level):
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
         return
 
-
-
-
 def registerUser(update): 
-    # TODO: check if user is regstered if not register user
     tid = str(update.message.from_user.id)
     collection = db.Users
     user = collection.find_one({'tid':tid})
     if user and user['reg_level'] == 4:
-        message = "Hello there" + user['first_name'] + "! You're already registered and good to go! Search for a topic with /learn topic_name or if you want to take a quiz, just send /quiz topic_name."
+        message = "Hello there " + user['first_name'] + "! You're already registered and good to go! Search for a topic with /learn topic_name or if you want to take a quiz, just send /quiz topic_name."
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
         return
 
@@ -69,7 +65,6 @@ def registerUser(update):
         registerLevel(tid,update,collection,user['reg_level'])
         return
     
-    # TODO: register new user
     message = "Hello there! Lets get started. First I'd like to get to know you. Please enter your first name"
     newUser = {
         "tid":tid,
@@ -84,6 +79,25 @@ def registerUser(update):
     bot.sendMessage(chat_id=update.message.chat_id,text=message)
     return
 
+    def getResources(update,topic):
+        # TODO: get search resuts from ml algorithm and return results
+        bot.sendMessage(chat_id=update.message.chat_id, text='This will fetch resources for topic ' + topic + ' and will keep a quiz ready')
+        return
+
+    def getQuiz(update,topic):
+        # TODO: generate quiz with ml algo
+        collection = db.Quizzes
+        quiz = collection.find_one({'topic':topic})
+        if quiz:
+            questions = quiz['quiz']
+            for question in questions:
+                bot.sendPoll(chat_id=update.message.chat_id,question = question['question'],
+                options=[question['op1'],question['op2'],question['op3'],question['op4']],
+                type=telegram.Poll.QUIZ,
+                correct_option_id=question['correct_op'])
+            return
+        message = 'Sorry, no quizzes found on topic '+ topic + '. Please try again later'
+        bot.sendMessage(chat_id=update.message.chat_id, text=message)
 
 
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
@@ -100,12 +114,12 @@ def respond():
 
     poll = update.poll
     if poll:
-        vote = poll.options
-        print('inside poll\n')
-        if vote[poll.correct_option_id].voter_count == 1:
-            bot.sendMessage(chat_id=id,text='Right Answer')
-        else:
-            bot.sendMessage(chat_id=id,text='Wrong Answer, Right answer is: ' + vote[poll.correct_option_id].text )
+        # vote = poll.options
+        # print('inside poll\n')
+        # if vote[poll.correct_option_id].voter_count == 1:
+        #     bot.sendMessage(chat_id=id,text='Right Answer')
+        # else:
+        #     bot.sendMessage(chat_id=id,text='Wrong Answer, Right answer is: ' + vote[poll.correct_option_id].text )
         return 'ok'
 
     chat_id = update.message.chat_id
@@ -115,11 +129,18 @@ def respond():
     if msg == '/start':
         registerUser(update)
         return 'ok'
-    
-    opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
-    opt = telegram.InlineKeyboardMarkup(inline_keyboard=opt)
-    bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3,reply_markup=opt)
 
+    elif len(msg) > 6 and msg[0:6] == '/learn':
+        getResources(update,msg[7:])
+        return
+
+    elif len(msg) > 5 and msg[0:5] == '/quiz':
+        getQuiz(update,msg[6:])
+        return
+    
+    # opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
+    # opt = telegram.InlineKeyboardMarkup(inline_keyboard=opt)
+    # bot.sendPoll(chat_id=chat_id,question='ur name?',options=['test','hey','sai','bye'],type=telegram.Poll.QUIZ,correct_option_id=3,reply_markup=opt)
     return 'ok'
 
 @app.route('/wh',methods = ['GET'])
