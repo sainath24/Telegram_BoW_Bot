@@ -17,7 +17,9 @@ def registerLevel(tid,update, collection,reg_level):
     if reg_level == 1:
         fn = update.message.text.encode('utf-8').decode()
         collection.find_one_and_update({'tid':tid},
-        {'$set':{'first_name':fn}},
+        {'$set':{'first_name':fn}})
+
+        collection.find_one_and_update({'tid':tid},
         {'$set':{'reg_level':2}})
         message = "Next enter your last name"
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
