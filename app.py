@@ -16,6 +16,7 @@ app = Flask(__name__)
 def registerLevel(tid,update, collection,reg_level):
     if reg_level == 1:
         fn = update.message.text.encode('utf-8').decode()
+
         collection.find_one_and_update({'tid':tid},
         {'$set':{'first_name':fn}})
 
@@ -27,8 +28,11 @@ def registerLevel(tid,update, collection,reg_level):
 
     elif reg_level == 2:
         ln = update.message.text.encode('utf-8').decode()
+
         collection.find_one_and_update({'tid':tid},
-        {'$set':{'last_name':fn}},
+        {'$set':{'last_name':fn}})
+
+        collection.find_one_and_update({'tid':tid},
         {'$set':{'reg_level':3}})
         message = "What interests you? Enter your interests seperated by a comma"
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
@@ -38,10 +42,13 @@ def registerLevel(tid,update, collection,reg_level):
     elif reg_level == 3:
         interests = update.message.text.encode('utf-8').decode()
         interests = interests.split(',')
+
         collection.find_one_and_update({'tid':tid},
-        {'$set':{'interests':interests}},
+        {'$set':{'interests':interests}})
+
+        collection.find_one_and_update({'tid':tid},
         {'$set':{'reg_level':4}})
-        message = "What interests you? Enter your interests seperated by a comma"
+        message = "Alright, that's all I want to know about you. Enter /learn topic_name to learn about a topic or enter /quiz topic_name to answer a quiz on the same. Have fun learning!"
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
         return
 
@@ -54,7 +61,7 @@ def registerUser(update):
     collection = db.Users
     user = collection.find_one({'tid':tid})
     if user and user['reg_level'] == 4:
-        message = "Hello there" + user['first_name'] + "! You're already registered and good to go! Search for a topic with /search topic_name or if you want to take a quiz, just do /quiz topic_name."
+        message = "Hello there" + user['first_name'] + "! You're already registered and good to go! Search for a topic with /learn topic_name or if you want to take a quiz, just send /quiz topic_name."
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
         return
 
