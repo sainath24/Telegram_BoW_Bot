@@ -2,15 +2,14 @@ from flask import Flask, request
 import telegram
 from bot_files.cred import bot_token, bot_user_name,URL
 import pymongo
-from pymongo import MongoClient
 
 global bot
 global TOKEN
 TOKEN = bot_token
 bot = telegram.Bot(token = TOKEN)
 
-client = pymongo.MongoClient("mongodb+srv://***REMOVED***")
-db = client.QuizBot
+# client = pymongo.MongoClient("mongodb+srv://***REMOVED***")
+# db = client.QuizBot
 
 app = Flask(__name__)
 
@@ -80,15 +79,15 @@ def registerUser(update):
 
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
 def respond():
-    Users = db.Users
+    # Users = db.Users
     update = telegram.Update.de_json(request.get_json(force = True), bot)
 
-    tid = str(update.message.from_user.id)
-    user = Users.find_one({'tid':tid})
+    # tid = str(update.message.from_user.id)
+    # user = Users.find_one({'tid':tid})
 
-    if user!=None and user['reg_level'] != 4:
-        registerUser(update)
-        return 'ok'
+    # if user!=None and user['reg_level'] != 4:
+    #     registerUser(update)
+    #     return 'ok'
 
     poll = update.poll
     if poll:
