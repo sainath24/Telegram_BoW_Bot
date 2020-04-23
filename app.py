@@ -108,12 +108,12 @@ def respond():
     Users = db.Users
     update = telegram.Update.de_json(request.get_json(force = True), bot)
     if update!=None and update.update_id in update_list:
-        return
+        return 'ok'
 
     update_list.append(update.update_id)
 
     if update.message == None:
-        return 'not a message'
+        return 'ok'
 
     tid = update.message.from_user.id
     user = Users.find_one({'tid':tid})
@@ -142,11 +142,11 @@ def respond():
 
     elif len(msg) > 6 and msg[0:6] == '/learn':
         getResources(update,msg[7:])
-        return
+        return 'ok'
 
     elif len(msg) > 5 and msg[0:5] == '/quiz':
         getQuiz(update,msg[6:])
-        return
+        return 'ok'
     
     # opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
     # opt = telegram.InlineKeyboardMarkup(inline_keyboard=opt)
