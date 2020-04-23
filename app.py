@@ -107,8 +107,8 @@ def getQuiz(update,topic):
 def respond():
     Users = db.Users
     update = telegram.Update.de_json(request.get_json(force = True), bot)
-    if update!=None and update.update_id in update_list:
-        return 'ok'
+    # if update!=None and update.update_id in update_list:
+    #     return 'ok'
 
     update_list.append(update.update_id)
 
