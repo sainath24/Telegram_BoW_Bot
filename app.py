@@ -115,18 +115,18 @@ def respond():
     if update.message == None:
         return 'ok'
 
-    tid = update.message.from_user.id
+    tid = str(update.message.from_user.id)
     user = Users.find_one({'tid':tid})
 
-    poll = update.poll
-    if poll:
-        # vote = poll.options
-        # print('inside poll\n')
-        # if vote[poll.correct_option_id].voter_count == 1:
-        #     bot.sendMessage(chat_id=id,text='Right Answer')
-        # else:
-        #     bot.sendMessage(chat_id=id,text='Wrong Answer, Right answer is: ' + vote[poll.correct_option_id].text )
-        return 'ok'
+    # poll = update.poll
+    # if poll:
+    #     # vote = poll.options
+    #     # print('inside poll\n')
+    #     # if vote[poll.correct_option_id].voter_count == 1:
+    #     #     bot.sendMessage(chat_id=id,text='Right Answer')
+    #     # else:
+    #     #     bot.sendMessage(chat_id=id,text='Wrong Answer, Right answer is: ' + vote[poll.correct_option_id].text )
+    #     return 'ok'
 
     if user!=None and user['reg_level'] != 4:
         registerUser(update)
