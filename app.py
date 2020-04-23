@@ -79,15 +79,15 @@ def registerUser(update):
 
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
 def respond():
-    # Users = db.Users
+    Users = db.Users
     update = telegram.Update.de_json(request.get_json(force = True), bot)
 
-    # tid = str(update.message.from_user.id)
-    # user = Users.find_one({'tid':tid})
+    tid = str(update.message.from_user.id)
+    user = Users.find_one({'tid':tid})
 
-    # if user!=None and user['reg_level'] != 4:
-    #     registerUser(update)
-    #     return 'ok'
+    if user!=None and user['reg_level'] != 4:
+        registerUser(update)
+        return 'ok'
 
     poll = update.poll
     if poll:
