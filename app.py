@@ -30,7 +30,7 @@ def registerLevel(tid,update, collection,reg_level):
         ln = update.message.text.encode('utf-8').decode()
 
         collection.find_one_and_update({'tid':tid},
-        {'$set':{'last_name':fn}})
+        {'$set':{'last_name':ln}})
 
         collection.find_one_and_update({'tid':tid},
         {'$set':{'reg_level':3}})
