@@ -79,25 +79,26 @@ def registerUser(update):
     bot.sendMessage(chat_id=update.message.chat_id,text=message)
     return
 
-    def getResources(update,topic):
-        # TODO: get search resuts from ml algorithm and return results
-        bot.sendMessage(chat_id=update.message.chat_id, text='This will fetch resources for topic ' + topic + ' and will keep a quiz ready')
-        return
+def getResources(update,topic):
+    # TODO: get search resuts from ml algorithm and return results
+    # genQuiz(topic) maybe in a parallel thread
+    bot.sendMessage(chat_id=update.message.chat_id, text='This will fetch resources for topic ' + topic + ' and will keep a quiz ready')
+    return
 
-    def getQuiz(update,topic):
-        # TODO: generate quiz with ml algo
-        collection = db.Quizzes
-        quiz = collection.find_one({'topic':topic})
-        if quiz:
-            questions = quiz['quiz']
-            for question in questions:
-                bot.sendPoll(chat_id=update.message.chat_id,question = question['question'],
-                options=[question['op1'],question['op2'],question['op3'],question['op4']],
-                type=telegram.Poll.QUIZ,
-                correct_option_id=question['correct_op'])
-            return
-        message = 'Sorry, no quizzes found on topic '+ topic + '. Please try again later'
-        bot.sendMessage(chat_id=update.message.chat_id, text=message)
+def getQuiz(update,topic):
+    # TODO: generate quiz with ml algo
+    collection = db.Quizzes
+    quiz = collection.find_one({'topic':topic})
+    if quiz:
+        questions = quiz['quiz']
+        for question in questions:
+            bot.sendPoll(chat_id=update.message.chat_id,question = question['question'],
+            options=[question['op1'],question['op2'],question['op3'],question['op4']],
+            type=telegram.Poll.QUIZ,
+            correct_option_id=question['correct_op'])
+        return
+    message = 'Sorry, no quizzes found on topic '+ topic + '. Please try again later'
+    bot.sendMessage(chat_id=update.message.chat_id, text=message)
 
 
 @app.route('/{}'.format(TOKEN), methods = ['POST'])
