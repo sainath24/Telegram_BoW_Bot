@@ -110,7 +110,7 @@ def respond():
     if update!=None and update.update_id in update_list:
         return
 
-    update_list.add(update.update_id)
+    update_list.append(update.update_id)
 
     if update.message == None:
         return 'not a message'
