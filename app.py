@@ -11,6 +11,8 @@ bot = telegram.Bot(token = TOKEN)
 client = pymongo.MongoClient("mongodb+srv://***REMOVED***")
 db = client.QuizBot
 
+update_list = []
+
 app = Flask(__name__)
 
 def registerLevel(tid,update, collection,reg_level):
@@ -105,13 +107,16 @@ def getQuiz(update,topic):
 def respond():
     Users = db.Users
     update = telegram.Update.de_json(request.get_json(force = True), bot)
+    if update!=None and update.update_id in update_list:
+        return
 
-    tid = str(update.message.from_user.id)
+    update_list.add(update.update_id)
+
+    if update.message == None:
+        return 'not a message'
+
+    tid = update.message.from_user.id
     user = Users.find_one({'tid':tid})
-
-    if user!=None and user['reg_level'] != 4:
-        registerUser(update)
-        return 'ok'
 
     poll = update.poll
     if poll:
@@ -121,6 +126,10 @@ def respond():
         #     bot.sendMessage(chat_id=id,text='Right Answer')
         # else:
         #     bot.sendMessage(chat_id=id,text='Wrong Answer, Right answer is: ' + vote[poll.correct_option_id].text )
+        return 'ok'
+
+    if user!=None and user['reg_level'] != 4:
+        registerUser(update)
         return 'ok'
 
     chat_id = update.message.chat_id
