@@ -8,8 +8,8 @@ global TOKEN
 TOKEN = bot_token
 bot = telegram.Bot(token = TOKEN)
 
-# client = pymongo.MongoClient("mongodb+srv://***REMOVED***")
-# db = client.QuizBot
+client = pymongo.MongoClient("mongodb+srv://***REMOVED***")
+db = client.QuizBot
 
 app = Flask(__name__)
 
