@@ -2,6 +2,8 @@ from flask import Flask, request
 import telegram
 from bot_files.cred import bot_token, bot_user_name,URL
 import pymongo
+from bs4 import BeautifulSoup
+import requests
 
 global bot
 global TOKEN
@@ -81,10 +83,93 @@ def registerUser(update):
     bot.sendMessage(chat_id=update.message.chat_id,text=message)
     return
 
-def getResources(update,topic):
+def searchResource(update, user, Users):
+    search = user['search']
+    Users.find_one_and_update({'tid':user['tid']},
+    {'$set':{'search':[]}})
+    subject = {
+        'Applied science':'applied-science',
+        'Mathematics' : 'mathematics',
+        'Arts and humanities' : 'arts-and-humanities',
+        'Business and communication':'business-and-communication',
+        'Education' : 'education',
+        'History' : 'history',
+        'Law' : 'law',
+        'Physcial science' : 'physical-science'
+    }
+
+    edulevel = {
+        'Preschool' : 'preschool',
+        'Lower primary' : 'lower-primary',
+        'Upper primary':'upper-primary',
+        'Middle school':'middle-school',
+        'High school':'high-school',
+        'College':'college'
+    }
+
+    url = 'https://www.oercommons.org/search?f.search=' + search[0] + '&f.general_subject=' + search[1] + '&f.sublevel=' + search[2] + '&f.material_types=textbook&f.media_formats=downloadable-docs'
+    rs = []
+    page = requests.get(url)
+
+    soup = BeautifulSoup(page.text,'html.parser')
+    div = soup.findAll('div',{'class':'item-title'})
+
+    for res in div:
+        rurl = res.find('a',{'class':'item-link js-item-link'}).get('href')
+        if '/courses/' in rurl:
+            addition = {}
+            addition['title'] = res.find('a',{'class':'item-link js-item-link'}).contents[0] #Title
+            # print(rurl + '\n')
+            u = rurl + '/view'  #Link to reource on oer
+            # print(u)
+            p = requests.get(u)
+            s = BeautifulSoup(p.text,'html.parser')
+            d = s.findAll('div',{'class':'modal-footer'})
+            for r in d:
+                try:
+                    furl = r.find('a',{'class':'js-continue-redirect-button'}).get('href') #Link to actual reosource that will be sent to user
+                    addition['link'] = furl
+                    #  print(furl + '\n\n')
+                    rs.append(addition)
+                    break
+                except:
+                    continue
+
+    return rs
+
+    
+
+
+
+def getResources(update,topic,user,Users):
     # TODO: get search resuts from ml algorithm and return results
     # genQuiz(topic) maybe in a parallel thread
-    bot.sendMessage(chat_id=update.message.chat_id, text='This will fetch resources for topic ' + topic + ' and will keep a quiz ready')
+    search = user['search']
+    if search == None or len(search) == 0:
+        search.append(topic)
+        Users.find_one_and_update({'tid':user['tid']},
+        {'$set':{'search':search}})
+        message = 'Enter the subject of the topic from one of the following:Applied Science\nArts and Humanities\nBusiness and Communication\nEducation\nHistory\nLaw\nMathematics\nPhysical Science\n Reply with /learn subject_name'
+        bot.sendMessage(chat_id=update.message.chat_id,text=message)
+        return
+
+    elif len(search) == 1:
+        search.append(topic)
+        Users.find_one_and_update({'tid':user['tid']},
+        {'$set':{'search':search}})
+        message = 'Enter Education level:\nPreschool\nLower Primary\nUpper Primary\nMiddle School\nHigh School\nCollege\nReply with /learn education_level'
+        bot.sendMessage(chat_id=update.message.chat_id, text=message)
+        return
+    
+    elif len(search) == 2:
+        rs = searchResource(update,user,Users)
+        message = 'Here are some resources,\n'
+        for obj in rs:
+            message += obj['title'] + ' - ' + obj['link'] + '\n'
+
+        bot.sendMessage(chat_id=update.message.chat_id, text=message)
+        return
+    # bot.sendMessage(chat_id=update.message.chat_id, text='This will fetch resources for topic ' + topic + ' and will keep a quiz ready')
     return
 
 def getQuiz(update,topic):
@@ -141,7 +226,7 @@ def respond():
         return 'ok'
 
     elif len(msg) > 6 and msg[0:6] == '/learn':
-        getResources(update,msg[7:])
+        getResources(update,msg[7:],user,Users)
         return 'ok'
 
     elif len(msg) > 5 and msg[0:5] == '/quiz':
@@ -163,3 +248,8 @@ def set_wh():
 
 if __name__ == "__main__":
     app.run(threaded = True)
+
+
+#  id(primary_key),website url, subject, level(beginner, intermediate, expert),    keyword
+
+# user_id, level
