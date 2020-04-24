@@ -107,7 +107,7 @@ def searchResource(update, user, Users):
         'college':'college-upper-division'
     }
 
-    url = 'https://www.oercommons.org/search?f.search=' + search[0].replace(' ', '-') + '&f.general_subject=' + subject[search[1]] + '&f.sublevel=' + edulevel[search[2]] + '&f.material_types=textbook&f.media_formats=downloadable-docs'
+    url = 'https://www.oercommons.org/search?f.search=' + search[0].replace(' ', '+') + '&f.general_subject=' + subject[search[1]] + '&f.sublevel=' + edulevel[search[2]] + '&f.material_types=textbook&f.media_formats=downloadable-docs'
     print(url)
     rs = []
     page = requests.get(url)
