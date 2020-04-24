@@ -88,26 +88,27 @@ def searchResource(update, user, Users):
     Users.find_one_and_update({'tid':user['tid']},
     {'$set':{'search':[]}})
     subject = {
-        'Applied science':'applied-science',
-        'Mathematics' : 'mathematics',
-        'Arts and humanities' : 'arts-and-humanities',
-        'Business and communication':'business-and-communication',
-        'Education' : 'education',
-        'History' : 'history',
-        'Law' : 'law',
-        'Physcial science' : 'physical-science'
+        'applied science':'applied-science',
+        'mathematics' : 'mathematics',
+        'arts and humanities' : 'arts-and-humanities',
+        'business and communication':'business-and-communication',
+        'education' : 'education',
+        'history' : 'history',
+        'law' : 'law',
+        'physcial science' : 'physical-science'
     }
 
     edulevel = {
-        'Preschool' : 'preschool',
-        'Lower primary' : 'lower-primary',
-        'Upper primary':'upper-primary',
-        'Middle school':'middle-school',
-        'High school':'high-school',
-        'College':'college'
+        'preschool' : 'preschool',
+        'lower primary' : 'lower-primary',
+        'upper primary':'upper-primary',
+        'middle school':'middle-school',
+        'high school':'high-school',
+        'college':'college'
     }
 
     url = 'https://www.oercommons.org/search?f.search=' + search[0] + '&f.general_subject=' + search[1] + '&f.sublevel=' + search[2] + '&f.material_types=textbook&f.media_formats=downloadable-docs'
+    print(url)
     rs = []
     page = requests.get(url)
 
@@ -166,9 +167,11 @@ def getResources(update,topic,user,Users):
         Users.find_one_and_update({'tid':user['tid']},
         {'$set':{'search':search}})
         rs = searchResource(update,user,Users)
+        print(rs)
         message = 'Here are some resources,\n'
         for obj in rs:
-            message += obj['title'] + ' - ' + obj['link'] + '\n'
+            print(obj)
+            message = message + obj['title'] + ' - ' + obj['link'] + '\n'
 
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
         return
