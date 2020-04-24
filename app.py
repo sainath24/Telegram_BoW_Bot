@@ -115,9 +115,11 @@ def searchResource(update, user, Users):
     soup = BeautifulSoup(page.text,'html.parser')
     div = soup.findAll('div',{'class':'item-title'})
 
+    count = 0 #get 5 courses
     for res in div:
         rurl = res.find('a',{'class':'item-link js-item-link'}).get('href')
-        if '/courses/' in rurl:
+        if '/courses/' in rurl and count<5:
+            count+=1
             addition = {}
             addition['title'] = res.find('a',{'class':'item-link js-item-link'}).contents[0] #Title
             # print(rurl + '\n')
