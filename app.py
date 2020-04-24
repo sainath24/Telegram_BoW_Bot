@@ -162,6 +162,9 @@ def getResources(update,topic,user,Users):
         return
     
     elif len(search) == 2:
+        search.append(topic)
+        Users.find_one_and_update({'tid':user['tid']},
+        {'$set':{'search':search}})
         rs = searchResource(update,user,Users)
         message = 'Here are some resources,\n'
         for obj in rs:
