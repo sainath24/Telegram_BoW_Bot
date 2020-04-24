@@ -104,7 +104,7 @@ def searchResource(update, user, Users):
         'upper primary':'upper-primary',
         'middle school':'middle-school',
         'high school':'high-school',
-        'college':'college'
+        'college':'college-upper-division'
     }
 
     url = 'https://www.oercommons.org/search?f.search=' + search[0] + '&f.general_subject=' + subject[search[1]] + '&f.sublevel=' + edulevel[search[2]] + '&f.material_types=textbook&f.media_formats=downloadable-docs'
