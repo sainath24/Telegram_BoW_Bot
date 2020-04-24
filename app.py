@@ -152,7 +152,7 @@ def getResources(update,topic,user,Users):
         search.append(topic)
         Users.find_one_and_update({'tid':user['tid']},
         {'$set':{'search':search}})
-        message = 'Enter the subject of the topic from one of the following:Applied Science\nArts and Humanities\nBusiness and Communication\nEducation\nHistory\nLaw\nMathematics\nPhysical Science\n Reply with /learn subject_name'
+        message = 'Enter the subject of the topic from one of the following:\nApplied Science\nArts and Humanities\nBusiness and Communication\nEducation\nHistory\nLaw\nMathematics\nPhysical Science\n Reply with /learn subject_name'
         bot.sendMessage(chat_id=update.message.chat_id,text=message)
         return
 
@@ -173,7 +173,7 @@ def getResources(update,topic,user,Users):
         message = 'Here are some resources,\n'
         for obj in rs:
             print(obj)
-            message = message + obj['title'] + ' - ' + obj['link'] + '\n'
+            message = message + obj['title'] + ' - ' + obj['link'] + '\n\n'
 
         bot.sendMessage(chat_id=update.message.chat_id, text=message)
         return
