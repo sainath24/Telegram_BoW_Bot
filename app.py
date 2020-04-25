@@ -319,7 +319,8 @@ def set_wh():
 def seltest():
     # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
     # CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-    dic = request.get()
+    dic = request.get_json(force=True)
+    print(dic)
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
@@ -328,6 +329,7 @@ def seltest():
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
     search = dic['search'].replace(' ','%20')
+    print('https://www.goconqr.com/en-US/search?q=' + search + '%20quiz')
     driver.get('https://www.goconqr.com/en-US/search?q=' + search + '%20quiz')
     driver.implicitly_wait(20)
 
@@ -336,6 +338,7 @@ def seltest():
     soup = BeautifulSoup(page,'html.parser')
 
     div = soup.findAll('div',{'class':'resource-tile__content'})
+    # print(div)
     title_divs = soup.findAll('div',{'class':'resource-tile__title'})
     rs = []
     count = 0 #get 5 courses
@@ -351,7 +354,7 @@ def seltest():
 
     print(rs)
 
-    return str(rs)
+    return str(div)
 
 
 if __name__ == "__main__":
