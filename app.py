@@ -202,6 +202,7 @@ def genQuiz(update,topic,user,Users):
     soup = BeautifulSoup(page,'html.parser')
 
     div = soup.findAll('a',{'class':'resource-tile__link'})
+    print(div)
     title_divs = soup.findAll('div',{'class':'resource-tile__title'})
     rs = []
     count = 0 #get 5 courses
