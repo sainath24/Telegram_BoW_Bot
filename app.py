@@ -283,7 +283,7 @@ def respond():
         return 'ok'
 
     elif len(msg) > 5 and msg[0:5] == '/quiz':
-        genQuiz(update,msg[7:],user,Users)
+        genQuiz(update,msg[6:],user,Users)
         # getQuiz(update,msg[6:])
         return 'ok'
     
