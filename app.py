@@ -330,7 +330,7 @@ def seltest():
 
     # search = dic['search'].replace(' ','%20')
     # print('https://www.goconqr.com/en-US/search?q=' + search + '%20quiz')
-    driver.get('https://www.goconqr.com/en-US/search?q=calculus%20quiz')
+    driver.get('https://www.goconqr.com/en-US/search?q=calculus+quiz')
     driver.implicitly_wait(60)
 
 
