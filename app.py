@@ -5,6 +5,7 @@ import pymongo
 from bs4 import BeautifulSoup
 import requests
 from selenium import webdriver
+import os
 
 global bot
 global TOKEN
@@ -191,7 +192,8 @@ def genQuiz(update,topic,user,Users):
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-    driver.get('https://www.goconqr.com/en-US/search?q=electrodynamics%20quiz')
+    topic = topic.replace(' ','%20')
+    driver.get('https://www.goconqr.com/en-US/search?q=' + topic + '%20quiz')
     driver.implicitly_wait(20)
 
 
@@ -296,8 +298,8 @@ def set_wh():
         return 'wh success'
     return 'wh failed'
 
-import os
-@app.route('/testsel',methods = ['GET','POST'])
+
+@app.route('/testsel',methods = ['GET','POST']) #test selenium
 def seltest():
     # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
     # CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
