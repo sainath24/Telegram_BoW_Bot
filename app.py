@@ -202,7 +202,7 @@ def genQuiz(update,topic,user,Users):
     soup = BeautifulSoup(page,'html.parser')
 
     div = soup.findAll('a',{'class':'resource-tile__link'})
-    print('links: ' + div)
+    print('links: ' + str(div))
     title_divs = soup.findAll('div',{'class':'resource-tile__title'})
     rs = []
     qcount = 0
