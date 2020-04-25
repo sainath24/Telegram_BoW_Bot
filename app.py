@@ -354,7 +354,7 @@ def seltest():
 
     print(rs)
 
-    return str(div)
+    return str(page)
 
 
 if __name__ == "__main__":
