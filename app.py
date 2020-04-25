@@ -265,7 +265,7 @@ def seltest():
     driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
     driver.get('https://www.goconqr.com/en-US/search?q=electrodynamics%20quiz')
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(15)
 
     page = driver.page_source
     print(page)
