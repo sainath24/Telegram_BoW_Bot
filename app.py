@@ -4,6 +4,7 @@ from bot_files.cred import bot_token, bot_user_name,URL
 import pymongo
 from bs4 import BeautifulSoup
 import requests
+from selenium import webdriver
 
 global bot
 global TOKEN
@@ -95,7 +96,7 @@ def searchResource(update, user, Users):
         'education' : 'education',
         'history' : 'history',
         'law' : 'law',
-        'physcial science' : 'physical-science'
+        'physical science' : 'physical-science'
     }
 
     edulevel = {
@@ -252,6 +253,22 @@ def set_wh():
     if s:
         return 'wh success'
     return 'wh failed'
+
+@app.route('/testsel',methods = ['GET','POST'])
+def seltest():
+    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.binary_location = GOOGLE_CHROME_PATH
+    driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+
+    driver.get('https://www.goconqr.com/en-US/search?q=electrodynamics%20quiz')
+    driver.implicitly_wait(10)
+
+    page = driver.page_source
+    print(page)
 
 
 if __name__ == "__main__":
