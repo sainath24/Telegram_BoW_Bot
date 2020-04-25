@@ -274,16 +274,15 @@ def seltest():
     soup = BeautifulSoup(page,'html.parser')
 
     div = soup.findAll('div',{'class':'resource-tile__content'})
-
+    title_divs = soup.findAll('div',{'class':'resource-tile__title'})
     rs = []
     count = 0 #get 5 courses
     for res in div:
-        title_divs = soup.findAll('div',{'class':'resource-tile__title'})
         if count<5 and 'quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]:
             rurl = res.find('a',{'class':'resource-tile__link'}).get('href')
             count+=1
             addition = {}
-            addition['title'] = title_divs[count].contents[0] #Title
+            addition['title'] = title_divs[count-1].contents[0] #Title
             u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
             addition['link'] = u
             rs.append(addition)
