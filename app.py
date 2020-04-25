@@ -12,7 +12,7 @@ global TOKEN
 TOKEN = bot_token
 bot = telegram.Bot(token = TOKEN)
 
-client = pymongo.MongoClient("mongodb+srv://***REMOVED***")
+client = pymongo.MongoClient("mongodb+srv://<USER>:<PASSWORD>@<URL>")
 db = client.QuizBot
 
 update_list = []

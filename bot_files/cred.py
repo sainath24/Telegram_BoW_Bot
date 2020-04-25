@@ -1,3 +1,3 @@
-bot_token = '***REMOVED***'
+bot_token = '<TELEGRAM_TOKEN>'
 bot_user_name = 'Qpzmal_bot'
-URL = '***REMOVED***'
+URL = '<WEBHOOK URL>'
