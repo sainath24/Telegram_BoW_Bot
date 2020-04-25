@@ -201,19 +201,27 @@ def genQuiz(update,topic,user,Users):
     page = driver.page_source
     soup = BeautifulSoup(page,'html.parser')
 
-    div = soup.findAll('div',{'class':'resource-tile__content'})
+    div = soup.findAll('a',{'class':'resource-tile__link'})
     title_divs = soup.findAll('div',{'class':'resource-tile__title'})
     rs = []
     count = 0 #get 5 courses
-    for res in div:
-        if count<5 and 'quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]:
-            rurl = res.find('a',{'class':'resource-tile__link'}).get('href')
-            count+=1
-            addition = {}
-            addition['title'] = title_divs[count-1].contents[0] #Title
-            u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
-            addition['link'] = u
-            rs.append(addition)
+    if count<5 and ('quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]):
+        rurl = div[count].get('href')
+        count+=1
+        addition = {}
+        addition['title'] = title_divs[count-1].contents[0] #Title
+        u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
+        addition['link'] = u
+        rs.append(addition)
+    # for res in div:
+    #     if count<5 and ('quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]):
+    #         rurl = res.find('a',{'class':'resource-tile__link'}).get('href')
+    #         count+=1
+    #         addition = {}
+    #         addition['title'] = title_divs[count-1].contents[0] #Title
+    #         u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
+    #         addition['link'] = u
+    #         rs.append(addition)
     
     message = 'Here are some quizzes you can try,\n'
     for obj in rs:
