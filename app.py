@@ -279,11 +279,12 @@ def respond():
 
     elif len(msg) > 6 and msg[0:6] == '/learn':
         getResources(update,msg[7:],user,Users)
-        genQuiz(update,msg[7:],user,Users)
+        # genQuiz(update,msg[7:],user,Users)
         return 'ok'
 
     elif len(msg) > 5 and msg[0:5] == '/quiz':
-        getQuiz(update,msg[6:])
+        genQuiz(update,msg[7:],user,Users)
+        # getQuiz(update,msg[6:])
         return 'ok'
     
     # opt = [[telegram.InlineKeyboardButton('test',callback_data='0'),telegram.InlineKeyboardButton('hey',callback_data='1')],[telegram.InlineKeyboardButton('sai',callback_data='2'),telegram.InlineKeyboardButton('bye',callback_data='3')]]
