@@ -330,6 +330,7 @@ def seltest():
 
     # search = dic['search'].replace(' ','%20')
     # print('https://www.goconqr.com/en-US/search?q=' + search + '%20quiz')
+    driver.get('https://www.goconqr.com/en-US/search?q=calculus+quiz')
     driver.implicitly_wait(20)
     driver.get('https://www.goconqr.com/en-US/search?q=calculus+quiz')
     element = driver.find_element_by_class_name("resource-tile__content")
