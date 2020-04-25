@@ -181,6 +181,47 @@ def getResources(update,topic,user,Users):
     # bot.sendMessage(chat_id=update.message.chat_id, text='This will fetch resources for topic ' + topic + ' and will keep a quiz ready')
     return
 
+def genQuiz(update,topic,user,Users):
+
+
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
+
+    driver.get('https://www.goconqr.com/en-US/search?q=electrodynamics%20quiz')
+    driver.implicitly_wait(20)
+
+
+    page = driver.page_source
+    soup = BeautifulSoup(page,'html.parser')
+
+    div = soup.findAll('div',{'class':'resource-tile__content'})
+    title_divs = soup.findAll('div',{'class':'resource-tile__title'})
+    rs = []
+    count = 0 #get 5 courses
+    for res in div:
+        if count<5 and 'quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]:
+            rurl = res.find('a',{'class':'resource-tile__link'}).get('href')
+            count+=1
+            addition = {}
+            addition['title'] = title_divs[count-1].contents[0] #Title
+            u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
+            addition['link'] = u
+            rs.append(addition)
+    
+    message = 'Here are some quizzes you can try,\n'
+    for obj in rs:
+        print(obj)
+        message = message + obj['title'] + ' - ' + obj['link'] + '\n\n'
+
+    bot.sendMessage(chat_id=update.message.chat_id, text=message)
+    return
+
+    
+
 def getQuiz(update,topic):
     # TODO: generate quiz with ml algo
     collection = db.Quizzes
@@ -236,6 +277,7 @@ def respond():
 
     elif len(msg) > 6 and msg[0:6] == '/learn':
         getResources(update,msg[7:],user,Users)
+        genQuiz(update,msg[7:],user,Users)
         return 'ok'
 
     elif len(msg) > 5 and msg[0:5] == '/quiz':
@@ -257,8 +299,8 @@ def set_wh():
 import os
 @app.route('/testsel',methods = ['GET','POST'])
 def seltest():
-    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
-    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    # CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
