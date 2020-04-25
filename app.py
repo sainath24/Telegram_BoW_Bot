@@ -207,15 +207,16 @@ def genQuiz(update,topic,user,Users):
     rs = []
     qcount = 0
     count = 0 #get 5 courses
-    if count<5 and qcount < len(title_divs) and ('quiz' in title_divs[qcount].contents[0] or 'Quiz' in title_divs[qcount].contents[0] or 'QUIZ' in title_divs[qcount].contents[0]):
-        rurl = div[qcount].get('href')
-        count+=1
-        addition = {}
-        addition['title'] = title_divs[qcount].contents[0] #Title
+    while count<5 and qcount<len(title_divs):
+        if 'quiz' in title_divs[qcount].contents[0] or 'Quiz' in title_divs[qcount].contents[0] or 'QUIZ' in title_divs[qcount].contents[0]:
+            rurl = div[qcount].get('href')
+            count+=1
+            addition = {}
+            addition['title'] = title_divs[qcount].contents[0] #Title
+            u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
+            addition['link'] = u
+            rs.append(addition)
         qcount+=1
-        u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
-        addition['link'] = u
-        rs.append(addition)
     # for res in div:
     #     if count<5 and ('quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]):
     #         rurl = res.find('a',{'class':'resource-tile__link'}).get('href')
