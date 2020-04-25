@@ -319,6 +319,7 @@ def set_wh():
 def seltest():
     # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
     # CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    dic = request.get()
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--disable-dev-shm-usage')
     chrome_options.add_argument('--headless')
@@ -326,7 +327,8 @@ def seltest():
     chrome_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
-    driver.get('https://www.goconqr.com/en-US/search?q=electrodynamics%20quiz')
+    search = dic['search'].replace(' ','%20')
+    driver.get('https://www.goconqr.com/en-US/search?q=' + search + '%20quiz')
     driver.implicitly_wait(20)
 
 
