@@ -272,6 +272,8 @@ def seltest():
     page = driver.page_source
     print(page)
 
+    return str(page)
+
 
 if __name__ == "__main__":
     app.run(threaded = True)
