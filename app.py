@@ -262,7 +262,7 @@ def seltest():
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.binary_location = GOOGLE_CHROME_PATH
-    driver = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
+    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
 
     driver.get('https://www.goconqr.com/en-US/search?q=electrodynamics%20quiz')
     driver.implicitly_wait(15)
