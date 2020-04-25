@@ -205,12 +205,14 @@ def genQuiz(update,topic,user,Users):
     print(div)
     title_divs = soup.findAll('div',{'class':'resource-tile__title'})
     rs = []
+    qcount = 0
     count = 0 #get 5 courses
-    if count<5 and ('quiz' in title_divs[count].contents[0] or 'Quiz' in title_divs[count].contents[0] or 'QUIZ' in title_divs[count].contents[0]):
-        rurl = div[count].get('href')
+    if count<5 and qcount < len(title_divs) and ('quiz' in title_divs[qcount].contents[0] or 'Quiz' in title_divs[qcount].contents[0] or 'QUIZ' in title_divs[qcount].contents[0]):
+        rurl = div[qcount].get('href')
         count+=1
         addition = {}
-        addition['title'] = title_divs[count-1].contents[0] #Title
+        addition['title'] = title_divs[qcount].contents[0] #Title
+        qcount+=1
         u = 'https://www.goconqr.com/en-US' + rurl #Link to quiz on goconqr
         addition['link'] = u
         rs.append(addition)
