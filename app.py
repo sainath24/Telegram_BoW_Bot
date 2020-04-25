@@ -193,6 +193,7 @@ def genQuiz(update,topic,user,Users):
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=chrome_options)
 
     topic = topic.replace(' ','%20')
+    print('https://www.goconqr.com/en-US/search?q=' + topic + '%20quiz')
     driver.get('https://www.goconqr.com/en-US/search?q=' + topic + '%20quiz')
     driver.implicitly_wait(20)
 
